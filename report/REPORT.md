@@ -7,18 +7,20 @@
 - **Lớp:** Track 4 — VinUni AI20K (chưa cung cấp mã lớp cụ thể)
 - **Link repo:** https://github.com/Wrxhard/NguyenTrongPhuc-2A202602552-Track4-Day21
 - **Topic:** D — Robot/drone obstacle
-- **Dataset:** [ĐIỀN một hoặc nhiều trong: data/synthetic, data/kitti_mini, data/nuscenes_mini_subset, log riêng]
-- **Các frame đã dùng:** [ĐIỀN danh sách frame id, ví dụ 000011, 000049 hoặc scene-0103_010]
+- **Dataset:** `data/kitti_mini` (thí nghiệm chính); `data/synthetic` (kiểm tra dữ liệu/debug).
+- **Các frame đã dùng:** synthetic `000000–000004` (CP0); KITTI `000001, 000011, 000019, 000025, 000049` (CP1: kiểm tra dữ liệu, dự kiến dùng CP2–CP4).
 
 > Hãy viết ngắn: mỗi mục từ 3 đến 8 dòng, ưu tiên số liệu và hình ảnh.
 
-> **Tiến độ:** CP0 đã qua kiểm tra môi trường và dữ liệu. Đây là báo cáo theo checkpoint, chưa phải bản nộp cuối; các mục thí nghiệm sẽ được điền tại CP1–CP5. Xem [báo cáo CP0](CP0.md).
+> **Tiến độ:** CP0 đã kiểm tra môi trường; CP1 đã chọn dataset/frame và viết claim nháp. Chưa chạy benchmark vật cản. Xem [CP0](CP0.md) và [CP1](CP1.md); các mục kết quả sẽ hoàn thiện tại CP2–CP5.
 
 ## 1. Claim
 
-Một câu khẳng định kỹ thuật có thể kiểm chứng. Ví dụ: *"Lệch yaw 1° làm 12% điểm LiDAR rơi ra khỏi vật thể ở 30 m, phát hiện được bằng edge-alignment score với ngưỡng X."*
+**Giả thuyết CP1, chưa được kiểm chứng:** trên 5 frame KITTI đã chọn, trong ROI LiDAR `x ∈ [0,30] m, y ∈ [-10,10] m, z ∈ [-3,3] m`, tăng ngưỡng khoảng cách tách mặt đất từ **0,10 lên 0,30 m**, giữ voxel **0,20 m** và cùng mặt phẳng ground, làm giảm **ít nhất 10% trung bình số điểm non-ground** so với ngưỡng 0,10 m.
 
-[ĐIỀN]
+Đo ở ba ngưỡng `0,10 / 0,20 / 0,30 m`; fit RANSAC một lần mỗi frame rồi giữ mặt phẳng cố định trong sweep để tách riêng tác động của ngưỡng. Sweep voxel riêng `0,10 / 0,20 / 0,40 m` với ngưỡng ground 0,10 m; DBSCAN `eps=0,60 m`, `min_points=10`, seed 42.
+
+Metric bổ sung: số cluster, kích thước AABB, khoảng cách ngang tới AABB gần nhất, latency p50/p95 (bỏ warm-up, ≥20 lượt). Điểm non-ground giảm chưa chứng minh bỏ sót vật cản; cần ảnh và phân tích CP4. Chi tiết metric/cấu hình trong [CP1](CP1.md).
 
 ## 2. Evidence
 
@@ -58,4 +60,4 @@ Ghi rõ đã dùng công cụ AI nào, dùng vào việc gì, và bạn đã t�
 
 | Công cụ | Dùng cho việc gì | Bạn đã kiểm chứng thế nào |
 |---|---|---|
-| ChatGPT / Codex | Đọc yêu cầu, chuẩn bị môi trường, chạy kiểm tra CP0 và cập nhật báo cáo | Các lệnh được chạy thật; kết quả nằm trong `results/data_health.csv` và `CP0.md`. Học viên cần tự xem và kiểm chứng trước khi nộp. |
+| ChatGPT / Codex | Đọc yêu cầu, chuẩn bị CP0, chọn frame/metric và soạn claim CP1 | Các lệnh được chạy thật; kết quả nằm trong `results/data_health.csv`, `results/data_health_kitti.csv`, `CP0.md` và `CP1.md`. Học viên cần tự xem và kiểm chứng trước khi nộp. |
