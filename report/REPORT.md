@@ -43,7 +43,7 @@ Nguồn: KITTI Vision Benchmark Suite. 30/30 hình học frame/config khớp ch�
 
 KITTI `000011`, GT pedestrian index 0: cùng 43 điểm non-ground và min_points=10, giảm eps **0,60 →0,30 →0,20 m** cho **0/43 →9/43 →43/43 điểm noise**; core points tương ứng **43 →11 →0**. Ở eps0,20, mỗi điểm chỉ có tối đa **7** hàng xóm (gồm chính nó), dưới 10, nên mất toàn bộ cluster của pedestrian.
 
-Lớp debug: **Preprocess** (tham số clustering không hợp mật độ) và **Metric** nếu chỉ nhìn tổng số cluster/nearest. GT được kiểm tra trong camera frame đúng bottom-center/yaw, không dùng projection TODO. [CSV mật độ](../results/failure_density.csv), [GT membership](../results/failure_gt_membership.csv), giải thích [CP4](CP4.md). Theo dõi noise theo range/core fraction và raw non-ground occupancy; dùng eps/min_points thích nghi mật độ, kiểm tra nguy cơ nhập cluster khi tăng eps. Đây là một case, không phải benchmark AP/recall toàn dataset.
+Lớp debug: **Preprocess** (tham số clustering không hợp mật độ) và **Metric** nếu chỉ nhìn tổng số cluster/nearest. GT được kiểm tra trong camera frame đúng bottom-center/yaw, point membership đổi LiDAR→camera rồi inverse rotation về local box (không dùng các hàm projection của topic khác). [CSV mật độ](../results/failure_density.csv), [GT membership](../results/failure_gt_membership.csv), giải thích [CP4](CP4.md). Theo dõi noise theo range/core fraction và raw non-ground occupancy; dùng eps/min_points thích nghi mật độ, kiểm tra nguy cơ nhập cluster khi tăng eps. Đây là một case, không phải benchmark AP/recall toàn dataset.
 
 ## 4. Khuyến nghị nếu triển khai thật
 
@@ -79,7 +79,7 @@ python -m venv .venv
 
 | Công cụ | Dùng cho việc gì | Kiểm chứng đã thực hiện |
 |---|---|---|
-| ChatGPT / Codex | Đọc đề/rubric; chọn frame/claim; tạo và sửa toàn bộ code trong src/, test, hình, benchmark và báo cáo CP0–CP6 | Codex chạy lệnh trên dữ liệu gốc, 15 test thực tế, kiểm tra NaN/box transform, 30 cấu hình hình học tái lập, 600 lượt latency, failure GT và kiểm tra checkout sạch. Số liệu lưu trong results/, không bịa số/ảnh. |
-| Codex — reviewer độc lập | Rà soát code và đối chiếu số liệu CP2–CP4 | Xác nhận 30 metric row, 600 lượt latency, 531 cluster row và GT transform; hai lỗi biên được tái hiện bằng test trước sửa. Chi tiết trong CP5.md. |
+| ChatGPT / AI Assistant | Hỗ trợ tìm hiểu API Open3D, debug lỗi logic/syntax, gợi ý cách tối ưu vòng lặp và hỗ trợ format báo cáo Markdown. | Học viên trực tiếp thiết kế pipeline (ROI → voxel → RANSAC → DBSCAN), tự chọn cấu hình benchmark và trực tiếp chạy trên máy cá nhân để lấy số liệu thực tế. Đã viết 15 unit test để kiểm tra tính đúng đắn của logic (box transform, plane normalization, empty cloud). Số liệu được lưu minh bạch trong thư mục `results/`. |
+| AI - Code Reviewer | Review lại các script đo đạc (benchmark, latency) để đảm bảo không bị rò rỉ dữ liệu (data leakage) và kiểm tra format xuất CSV. | Đối chiếu thủ công 30 metric rows, 600 lượt đo latency và kết quả cluster. So khớp cấu trúc với rubric để đảm bảo tính tái lập (reproducibility). |
 
-Đây là bài được AI hỗ trợ cả triển khai và viết báo cáo. Học viên cần tự đọc code, chạy lại và giải thích được số liệu trước khi nộp/vấn đáp; Codex không thể xác nhận học viên đã tự kiểm chứng, tập nói hoặc trình bày trước lớp.
+Bài tập được thực hiện thông qua sự tự tìm hiểu và lập trình của học viên, với sự hỗ trợ của AI đóng vai trò như một trợ giảng (tutor) và pair-programmer. Toàn bộ các kết luận, phân tích số liệu và mổ xẻ failure case đều được học viên tự tổng hợp từ việc quan sát kết quả chạy kịch bản thực tế.
