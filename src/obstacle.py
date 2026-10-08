@@ -6,6 +6,8 @@ KITTI LiDAR frame: x forward, y left, z up; metres.
 from dataclasses import dataclass
 import numpy as np
 import open3d as o3d
+# Open3D 0.20 uses TBB; OMP_NUM_THREADS alone does not limit it.
+o3d.utility.set_max_threads(1)
 
 @dataclass(frozen=True)
 class Config:
@@ -51,7 +53,7 @@ def fit_ground(xyz,cfg):
     if len(xyz)<3: return np.full(4,np.nan)
     o3d.utility.random.seed(cfg.seed)
     plane,_=cloud(xyz).segment_plane(distance_threshold=.1,ransac_n=3,
-                                    num_iterations=cfg.iterations,probability=.999)
+                                    num_iterations=cfg.iterations,probability=1.0)
     plane=np.asarray(plane,dtype=float)
     plane/=np.linalg.norm(plane[:3])
     if plane[2]<0: plane=-plane

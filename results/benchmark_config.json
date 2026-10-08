@@ -1,0 +1,76 @@
+{
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i5-10300H CPU @ 2.50GHz",
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.6",
+    "numpy": "2.5.3",
+    "open3d": "0.20.0",
+    "device": "CPU",
+    "open3d_max_threads": 1,
+    "ransac_probability": 1.0
+  },
+  "dataset": "data/kitti_mini",
+  "frames": [
+    "000001",
+    "000011",
+    "000019",
+    "000025",
+    "000049"
+  ],
+  "seed": 42,
+  "repeats_per_frame_config": 20,
+  "warmups_per_frame_config": 1,
+  "roi": {
+    "x": [
+      0,
+      30
+    ],
+    "y": [
+      -10,
+      10
+    ],
+    "z": [
+      -3,
+      3
+    ]
+  },
+  "fixed_planes": {
+    "000001": [
+      -0.01135088390452629,
+      -0.002625365786775108,
+      0.999932130141377,
+      1.7489836732458952
+    ],
+    "000011": [
+      -0.012986686395445167,
+      0.033045308935518755,
+      0.9993694779879074,
+      1.7053223423054005
+    ],
+    "000019": [
+      0.0069026831540327524,
+      0.04501815650183764,
+      0.998962320886254,
+      1.6094239206850773
+    ],
+    "000025": [
+      -0.004648811717443577,
+      -0.010209452491676065,
+      0.9999370758349928,
+      1.7490652641170665
+    ],
+    "000049": [
+      -0.015795573403537416,
+      -0.021295664186932493,
+      0.9996484354750379,
+      1.7647971512413718
+    ]
+  },
+  "timing_scope": {
+    "ground": "filter + voxel + fixed-plane classification + DBSCAN + AABB; reference fit excluded",
+    "voxel": "filter + voxel + RANSAC fit + classification + DBSCAN + AABB"
+  },
+  "excluded": "I/O, imports, plot, CSV writing, repeat fingerprint checks",
+  "claim_drop_pct": 13.31716090175248,
+  "claim_supported": true
+}

@@ -1,2 +1,2 @@
 frame_id,voxel,threshold,eps,min_points,seed,iterations,n_raw,n_invalid,n_roi,n_voxel,n_ground,n_non_ground,ground_valid,plane_tilt_deg,n_clusters,n_noise,nearest_m,no_cluster
-000000,0.2,0.1,0.6,10,42,1000,23953,23,7442,4295,3480,815,True,0.0033790225343396296,7,305,6.001666533371193,False
+000000,0.2,0.1,0.6,10,42,1000,23953,23,7442,4295,3480,815,True,0.003679254196375393,7,305,6.001666533371193,False

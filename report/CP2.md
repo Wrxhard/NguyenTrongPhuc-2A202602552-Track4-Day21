@@ -21,3 +21,7 @@ KITTI cho 7/22/11/15/29 cluster; plane tilt 0,680/1,980/2,610/0,643/1,515°. Fra
 ```
 
 API tham khảo: [Open3D tutorial](https://www.open3d.org/docs/release/tutorial/geometry/pointcloud.html). Code tự viết có hỗ trợ Codex. Lỗi escape newline trong tiêu đề đã được xác định qua SyntaxError và sửa; demo sau sửa chạy thành công. CP2 chưa có benchmark/failure hoàn chỉnh.
+
+## Cập nhật tại CP3
+
+CP3 phát hiện/sửa RANSAC chưa tái lập, đã tạo lại các CSV/ảnh ở đường dẫn trên. Số baseline cuối là 7/21/11/15/29 cluster; tham khảo CP3 và baseline.csv hiện tại. Các số cũ trong phần trên là kết quả ban đầu ở commit CP2, được thay thế cho bản nộp cuối.

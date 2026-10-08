@@ -33,6 +33,16 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(boxes,[])
         np.testing.assert_array_equal(labels,[-1,-1])
 
+    def test_kitti_plane_repeats_with_seed(self):
+        from starter.datasets import load_points
+        p=load_points('data/kitti_mini','000001')
+        cfg=m.Config(voxel=.1)
+        a=m.process(p,cfg)
+        for _ in range(4):
+            b=m.process(p,cfg)
+            np.testing.assert_array_equal(a['plane'],b['plane'])
+            np.testing.assert_array_equal(a['labels'],b['labels'])
+
     def test_vertical_plane_rejected(self):
         self.assertFalse(m.valid_ground([1,0,0,-3]))
         self.assertTrue(m.valid_ground([0,0,1,1.7]))
