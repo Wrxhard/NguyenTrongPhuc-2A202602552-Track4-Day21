@@ -12,7 +12,7 @@
 
 > Hãy viết ngắn: mỗi mục từ 3 đến 8 dòng, ưu tiên số liệu và hình ảnh.
 
-> **Tiến độ:** CP3 đã hoàn thành benchmark và kiểm tra tái lập. [CP0](CP0.md) · [CP1](CP1.md) · [CP2](CP2.md) · [CP3](CP3.md). Failure sẽ phân tích ở CP4.
+> **Tiến độ:** CP4 đã có failure chạy thật và occupancy BEV. [CP0](CP0.md) · [CP1](CP1.md) · [CP2](CP2.md) · [CP3](CP3.md) · [CP4](CP4.md). CP5 sẽ kiểm tra bản nộp.
 
 ## 1. Claim
 
@@ -43,17 +43,19 @@ Nguồn: KITTI Vision Benchmark Suite. 30/30 hình học frame/config khớp ch�
 
 ## 3. Failure case
 
-Nêu khi nào hệ thống hoặc phương pháp fail, vì sao fail, và liên hệ tới lớp nào trong 6 lớp debug: I/O, Geometry, Time, Preprocess, Model, Metric.
+![Pedestrian bị loại bởi DBSCAN](../results/figures/fail_01_dbscan_pedestrian.png)
 
-![failure](../results/figures/fail_[ĐIỀN].png)
+KITTI `000011`, GT pedestrian index 0: cùng 43 điểm non-ground và min_points=10, giảm eps **0,60 →0,30 →0,20 m** cho **0/43 →9/43 →43/43 điểm noise**; core points tương ứng **43 →11 →0**. Ở eps0,20, mỗi điểm chỉ có tối đa **7** hàng xóm (gồm chính nó), dưới 10, nên mất toàn bộ cluster của pedestrian.
 
-[ĐIỀN]
+Lớp debug: **Preprocess** (tham số clustering không hợp mật độ) và **Metric** nếu chỉ nhìn tổng số cluster/nearest. GT được kiểm tra trong camera frame đúng bottom-center/yaw, không dùng projection TODO. [CSV mật độ](../results/failure_density.csv), [GT membership](../results/failure_gt_membership.csv), giải thích [CP4](CP4.md). Theo dõi noise theo range/core fraction và raw non-ground occupancy; dùng eps/min_points thích nghi mật độ, kiểm tra nguy cơ nhập cluster khi tăng eps. Đây là một case, không phải benchmark AP/recall toàn dataset.
 
 ## 4. Khuyến nghị nếu triển khai thật
 
-Use-case cụ thể (ADAS / robot / drone), trade-off và bước tiếp theo.
+Robot mặt đất trong kho cần giữ được vật thấp và pedestrian thưa điểm: bắt đầu thử voxel0,20/ground0,10/eps0,60 rồi hiệu chỉnh trên dữ liệu kho có GT, vật thấp và nền dốc; cấu hình KITTI này chưa phải cấu hình tối ưu. Voxel0,40 nhanh hơn nhưng giảm điểm và dịch nearest; eps nhỏ có thể loại người thành noise. Ground threshold phải thấp hơn chiều cao vật cần tránh, có kiểm tra ground cục bộ thay một plane toàn cảnh.
 
-[ĐIỀN]
+Log số điểm hữu hạn/ROI/voxel/non-ground, ground tilt/inlier ratio, noise/core fraction theo range, số và kích thước cluster, nearest AABB, p95, timestamp và sensor health; cảnh báo no_cluster/ground invalid, không coi là đường trống. Đưa cả điểm noise vào occupancy để giữ cảnh báo sơ cấp, kết hợp footprint, braking distance và tracking.
+
+[BEV occupancy](../results/figures/occupancy_000019.png): 1239 ô có điểm non-ground, cell0,20 m, vùng không có bằng chứng là **unknown**, chưa raycast free space. Drone cần occupancy 3D và kiểm tra vật phía trên, vì BEV2D làm mất chiều cao.
 
 ## 5. Cách chạy lại
 
@@ -66,10 +68,11 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -m src.experiments demo
 .\.venv\Scripts\python.exe -m src.benchmark
 .\.venv\Scripts\python.exe -m src.verify_geometry
+.\.venv\Scripts\python.exe -m src.failure
 .\.venv\Scripts\python.exe -m src.experiments demo --data-root data/synthetic --frames 000000 --out results/synthetic_debug
 ```
 
-`python -m src.experiments --help` giải thích tham số. Benchmark cần vài phút; failure sẽ bổ sung ở CP4.
+`python -m src.experiments --help` giải thích tham số. Benchmark cần vài phút; latency có thể thay đổi, số liệu hình học cần khớp.
 
 ## 6. Khai báo sử dụng AI
 
@@ -77,4 +80,4 @@ Ghi rõ đã dùng công cụ AI nào, dùng vào việc gì, và bạn đã t�
 
 | Công cụ | Dùng cho việc gì | Bạn đã kiểm chứng thế nào |
 |---|---|---|
-| ChatGPT / Codex | Chuẩn bị CP0–CP1; viết pipeline, test, demo và benchmark CP2–CP3 | Các lệnh được chạy thật; kết quả nằm trong `results/data_health.csv`, `results/data_health_kitti.csv`, `CP0.md`, `CP1.md` và `CP2.md`. Học viên cần tự xem và kiểm chứng trước khi nộp. |
+| ChatGPT / Codex | Chuẩn bị CP0–CP1; viết pipeline/test/demo, benchmark CP2–CP3 và phân tích GT failure CP4 | Các lệnh được chạy thật; kết quả nằm trong `results/data_health.csv`, `results/data_health_kitti.csv`, `CP0.md`, `CP1.md` và `CP2.md`. Học viên cần tự xem và kiểm chứng trước khi nộp. |

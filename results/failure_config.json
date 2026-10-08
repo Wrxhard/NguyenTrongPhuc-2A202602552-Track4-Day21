@@ -1,0 +1,22 @@
+{
+  "dataset": "data/kitti_mini",
+  "frame": "000011",
+  "target_gt_index": 0,
+  "eps": [
+    0.6,
+    0.3,
+    0.2
+  ],
+  "min_points": 10,
+  "voxel_m": 0.2,
+  "ground_threshold_m": 0.1,
+  "seed": 42,
+  "fixed_plane": [
+    -0.012986686395445167,
+    0.033045308935518755,
+    0.9993694779879074,
+    1.7053223423054005
+  ],
+  "occupied_cells_000019": 1239,
+  "gt_convention": "camera bottom center; h,w,l; yaw around y; inverse T_cam_velo"
+}

@@ -1,0 +1,4 @@
+eps,gt_index,gt_class,n_points,n_noise,n_core_in_gt,min_neighbors,max_neighbors,median_neighbors
+0.6,0,Pedestrian,43,0,43,10,41,25.0
+0.3,0,Pedestrian,43,9,11,4,11,8.0
+0.2,0,Pedestrian,43,43,0,1,7,5.0
