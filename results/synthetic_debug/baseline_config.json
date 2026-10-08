@@ -1,0 +1,30 @@
+{
+  "dataset": "data/synthetic",
+  "frames": [
+    "000000"
+  ],
+  "roi": {
+    "x": [
+      0,
+      30
+    ],
+    "y": [
+      -10,
+      10
+    ],
+    "z": [
+      -3,
+      3
+    ]
+  },
+  "config": {
+    "voxel": 0.2,
+    "threshold": 0.1,
+    "eps": 0.6,
+    "min_points": 10,
+    "seed": 42,
+    "iterations": 1000
+  },
+  "plane_fit_threshold_m": 0.1,
+  "max_ground_tilt_deg": 15
+}

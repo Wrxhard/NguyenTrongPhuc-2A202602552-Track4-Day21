@@ -12,7 +12,7 @@
 
 > Hãy viết ngắn: mỗi mục từ 3 đến 8 dòng, ưu tiên số liệu và hình ảnh.
 
-> **Tiến độ:** CP0 đã kiểm tra môi trường; CP1 đã chọn dataset/frame và viết claim nháp. Chưa chạy benchmark vật cản. Xem [CP0](CP0.md) và [CP1](CP1.md); các mục kết quả sẽ hoàn thiện tại CP2–CP5.
+> **Tiến độ:** CP2 đã chạy baseline trên 5 frame KITTI. Xem [CP0](CP0.md), [CP1](CP1.md), [CP2](CP2.md). Benchmark và failure sẽ hoàn thiện ở CP3–CP4.
 
 ## 1. Claim
 
@@ -24,13 +24,19 @@ Metric bổ sung: số cluster, kích thước AABB, khoảng cách ngang tới 
 
 ## 2. Evidence
 
-Bảng hoặc plot số liệu, kèm ảnh/video demo. Ghi rõ đường dẫn file trong `results/`.
+Baseline voxel 0,20 m, ground 0,10 m, DBSCAN eps 0,60 m/min_points 10, seed 42. Chi tiết [baseline.csv](../results/baseline.csv), mọi AABB trong [baseline_clusters.csv](../results/baseline_clusters.csv).
 
-| Cấu hình / mức perturb | Metric 1 | Metric 2 | Ghi chú |
-|---|---|---|---|
-| [ĐIỀN] | | | |
+| Frame KITTI | Điểm ROI → voxel → non-ground | Cluster | Nearest AABB XY (m) |
+|---|---|---:|---:|
+| 000001 | 47839 → 8887 → 5364 | 7 | 2,267 |
+| 000011 | 52222 → 8031 → 4077 | 22 | 1,558 |
+| 000019 | 49770 → 6991 → 4092 | 11 | 0,405 |
+| 000025 | 52511 → 9111 → 7386 | 15 | 2,021 |
+| 000049 | 41301 → 5537 → 3048 | 29 | 2,449 |
 
-![demo](../results/figures/[ĐIỀN].png)
+![Demo từng bước frame 000019](../results/figures/demo_000019.png)
+
+Nguồn: KITTI Vision Benchmark Suite. Nearest là khoảng cách tới box dự đoán, chưa xác nhận vật cản thật; mặt đất còn sót và cluster nhập có thể gây sai.
 
 ## 3. Failure case
 
@@ -48,11 +54,17 @@ Use-case cụ thể (ADAS / robot / drone), trade-off và bước tiếp theo.
 
 ## 5. Cách chạy lại
 
-Các lệnh tái tạo lại toàn bộ kết quả từ repo sạch.
+Từ gốc repo, Windows PowerShell:
 
-```bash
-[ĐIỀN]
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt "open3d>=0.18"
+.\.venv\Scripts\python.exe -m unittest discover -s src -p "test_*.py"
+.\.venv\Scripts\python.exe -m src.experiments demo
+.\.venv\Scripts\python.exe -m src.experiments demo --data-root data/synthetic --frames 000000 --out results/synthetic_debug
 ```
+
+`python -m src.experiments --help` giải thích tham số. Benchmark/failure bổ sung tại CP3–CP4.
 
 ## 6. Khai báo sử dụng AI
 
@@ -60,4 +72,4 @@ Ghi rõ đã dùng công cụ AI nào, dùng vào việc gì, và bạn đã t�
 
 | Công cụ | Dùng cho việc gì | Bạn đã kiểm chứng thế nào |
 |---|---|---|
-| ChatGPT / Codex | Đọc yêu cầu, chuẩn bị CP0, chọn frame/metric và soạn claim CP1 | Các lệnh được chạy thật; kết quả nằm trong `results/data_health.csv`, `results/data_health_kitti.csv`, `CP0.md` và `CP1.md`. Học viên cần tự xem và kiểm chứng trước khi nộp. |
+| ChatGPT / Codex | Chuẩn bị CP0–CP1; viết pipeline, test và ảnh demo CP2 | Các lệnh được chạy thật; kết quả nằm trong `results/data_health.csv`, `results/data_health_kitti.csv`, `CP0.md`, `CP1.md` và `CP2.md`. Học viên cần tự xem và kiểm chứng trước khi nộp. |
