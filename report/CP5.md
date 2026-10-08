@@ -32,3 +32,7 @@ Ground sweep cache fit plane, voxel sweep fit lại; chỉ so latency trong cùn
 ## Nộp LMS
 
 Repo https://github.com/Wrxhard/NguyenTrongPhuc-2A202602552-Track4-Day21. Sau CP6 dùng commit hash cuối đã push để nộp cùng link trên LMS Day6 Lab. Chưa nộp LMS tự động. Ngày thực hiện08/10/2026, hạn nộp muộn23:59UTC+7 theo SUBMISSION/RULES; không ghi lùi ngày hoặc force-push. CP6 sẽ cung cấp nội dung trình bày, không giả lập việc học viên đã nói trước lớp.
+
+## Kiểm tra bổ sung bản sau sửa
+
+Trong CP6 đã clone sạch b18fb27 và chạy lại:15/15 test,30/30 geometry,7 PNG và4 CSV minh chứng giống hệt; check_submission10/10 PASS. Xem CP6 và verification.json.

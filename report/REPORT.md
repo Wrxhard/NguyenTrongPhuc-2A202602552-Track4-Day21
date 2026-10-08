@@ -6,9 +6,9 @@
 - **Link repo:** https://github.com/Wrxhard/NguyenTrongPhuc-2A202602552-Track4-Day21
 - **Topic:** D — Robot/drone obstacle
 - **Dataset:** `data/kitti_mini` (thí nghiệm chính); `data/synthetic` (kiểm tra dữ liệu/debug).
-- **Các frame đã dùng:** synthetic `000000–000004` (CP0); KITTI `000001, 000011, 000019, 000025, 000049` (baseline, benchmark và failure CP2–CP4).
+- **Các frame đã dùng:** synthetic `000000–000004` (CP0); KITTI `000001, 000011, 000019, 000025, 000049` (baseline/benchmark CP2–CP3; failure000011 và occupancy000019 ở CP4).
 
-> **Tiến độ:** CP0–CP5 đã có minh chứng và kiểm tra bản nộp; chuẩn bị trình bày CP6. [CP0](CP0.md) · [CP1](CP1.md) · [CP2](CP2.md) · [CP3](CP3.md) · [CP4](CP4.md) · [CP5](CP5.md).
+> **Minh chứng repo hoàn chỉnh:** CP0–CP5 đã kiểm tra; [CP6: kịch bản 3 phút và hỏi đáp](CP6.md) đã chuẩn bị. [Nhật ký CP5](CP5.md). Học viên còn cần tự tập nói, trình bày nếu được gọi và nộp link/hash trên LMS.
 
 ## 1. Claim
 

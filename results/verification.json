@@ -32,5 +32,18 @@
       "CP5/CP6 completion"
     ]
   },
-  "review_followup": "visual figures checked by author; checkout reproduction verified; no claim of production deployment or student presentation/LMS submission"
+  "review_followup": "visual figures checked by author; checkout reproduction verified; no claim of production deployment or student presentation/LMS submission",
+  "final_clean_checkout": {
+    "source_commit": "b18fb27",
+    "tests_passed": 15,
+    "geometry_fingerprints_matched": 30,
+    "pngs_identical": 7,
+    "csvs_identical": [
+      "baseline_clusters.csv",
+      "failure_density.csv",
+      "failure_gt_membership.csv",
+      "occupancy_cells.csv"
+    ],
+    "submission_checks_passed": 10
+  }
 }
