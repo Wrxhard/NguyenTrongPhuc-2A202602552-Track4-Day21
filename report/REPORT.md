@@ -1,16 +1,18 @@
-# Báo cáo Day 6: [ĐIỀN tên đề tài ngắn]
+# Báo cáo Day 6: Phát hiện vật cản cho robot/drone
 
 > Thay **mọi** ô có chữ ĐIỀN nằm trong ngoặc vuông bằng nội dung của bạn, xoá luôn cả dấu ngoặc vuông. Lệnh `python tools/check_submission.py` sẽ báo FAIL nếu còn sót bất kỳ chỗ nào.
 
-- **Họ tên:** [ĐIỀN]
-- **MSSV:** [ĐIỀN] (phải trùng với MSSV trong tên repo `<HoVaTen>-<MSSV>-Track4-Day21`)
-- **Lớp:** [ĐIỀN]
-- **Link repo:** [ĐIỀN]
-- **Topic:** [ĐIỀN một chữ cái A/B/C/D/E/F] — [ĐIỀN tên topic]
+- **Họ tên:** Nguyễn Trọng Phúc
+- **MSSV:** 2A202602552
+- **Lớp:** Track 4 — VinUni AI20K (chưa cung cấp mã lớp cụ thể)
+- **Link repo:** https://github.com/Wrxhard/NguyenTrongPhuc-2A202602552-Track4-Day21
+- **Topic:** D — Robot/drone obstacle
 - **Dataset:** [ĐIỀN một hoặc nhiều trong: data/synthetic, data/kitti_mini, data/nuscenes_mini_subset, log riêng]
 - **Các frame đã dùng:** [ĐIỀN danh sách frame id, ví dụ 000011, 000049 hoặc scene-0103_010]
 
 > Hãy viết ngắn: mỗi mục từ 3 đến 8 dòng, ưu tiên số liệu và hình ảnh.
+
+> **Tiến độ:** CP0 đã qua kiểm tra môi trường và dữ liệu. Đây là báo cáo theo checkpoint, chưa phải bản nộp cuối; các mục thí nghiệm sẽ được điền tại CP1–CP5. Xem [báo cáo CP0](CP0.md).
 
 ## 1. Claim
 
@@ -56,4 +58,4 @@ Ghi rõ đã dùng công cụ AI nào, dùng vào việc gì, và bạn đã t�
 
 | Công cụ | Dùng cho việc gì | Bạn đã kiểm chứng thế nào |
 |---|---|---|
-| [ĐIỀN] | | |
+| ChatGPT / Codex | Đọc yêu cầu, chuẩn bị môi trường, chạy kiểm tra CP0 và cập nhật báo cáo | Các lệnh được chạy thật; kết quả nằm trong `results/data_health.csv` và `CP0.md`. Học viên cần tự xem và kiểm chứng trước khi nộp. |
