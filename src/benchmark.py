@@ -10,7 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from starter.datasets import load_points
 from src.obstacle import Config,process
-from src.experiments import FRAMES,write_csv,box_rows
+from src.experiments import FRAMES,write_csv,box_rows,CLUSTER_COLUMNS
 
 
 def configurations():
@@ -103,7 +103,7 @@ def run_benchmark(root,out,frames,repeats=20):
     write_csv(out/'obstacle_sweep.csv',rows)
     write_csv(out/'obstacle_summary.csv',summaries)
     write_csv(out/'latency_samples.csv',timed)
-    write_csv(out/'sweep_clusters.csv',boxes)
+    write_csv(out/'sweep_clusters.csv',boxes,fieldnames=['sweep','value','frame_id',*CLUSTER_COLUMNS])
     (out/'benchmark_config.json').write_text(json.dumps(metadata,indent=2),encoding='utf-8')
     fig,axes=plt.subplots(2,3,figsize=(14,7),layout='constrained')
     for i,sweep in enumerate(['ground','voxel']):

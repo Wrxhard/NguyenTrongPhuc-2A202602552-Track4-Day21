@@ -8,6 +8,16 @@ except ImportError:
 class BenchmarkTests(unittest.TestCase):
     def setUp(self): self.assertIsNotNone(m,'benchmark is not implemented')
 
+    def test_empty_csv_overwrites_stale_rows_with_header(self):
+        import tempfile
+        from pathlib import Path
+        from src.experiments import write_csv
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d)/"clusters.csv"
+            p.write_text("stale cluster data")
+            write_csv(p,[],fieldnames=["frame_id","cluster_id","n_points"])
+            self.assertEqual(p.read_text(),"frame_id,cluster_id,n_points\n")
+
     def test_quantiles_and_twenty_repeats(self):
         p50,p95=m.latency_stats(list(range(1,21)))
         self.assertAlmostEqual(p50,10.5)

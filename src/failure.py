@@ -73,7 +73,7 @@ def render_occupancy(result,out,frame):
     for ix,iy in zip(*np.nonzero(grid)):
         rows.append(dict(x_center_m=(ix+.5)*.2,y_center_m=-10+(iy+.5)*.2,
                          n_points=int(grid[ix,iy]),state='occupied_candidate'))
-    write_csv(out/'occupancy_cells.csv',rows)
+    write_csv(out/'occupancy_cells.csv',rows,fieldnames=['x_center_m','y_center_m','n_points','state'])
     fig,ax=plt.subplots(figsize=(11,7),layout='constrained')
     ax.imshow((grid.T>0).astype(int),origin='lower',extent=[0,30,-10,10],
               cmap=ListedColormap(['#e4e4e4','#173c4d']),vmin=0,vmax=1,aspect='equal')

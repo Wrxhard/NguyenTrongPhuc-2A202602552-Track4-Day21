@@ -43,6 +43,13 @@ class PipelineTests(unittest.TestCase):
             np.testing.assert_array_equal(a['plane'],b['plane'])
             np.testing.assert_array_equal(a['labels'],b['labels'])
 
+    def test_scaled_plane_tilt_metric(self):
+        p=np.array([[1,0,1,1],[2,0,1,1]])
+        a=m.process(p,m.Config(),plane=[0,.1,1,0])
+        b=m.process(p,m.Config(),plane=[0,.2,2,0])
+        self.assertAlmostEqual(a["metrics"]["plane_tilt_deg"],5.710593137499643)
+        self.assertAlmostEqual(b["metrics"]["plane_tilt_deg"],5.710593137499643)
+
     def test_vertical_plane_rejected(self):
         self.assertFalse(m.valid_ground([1,0,0,-3]))
         self.assertTrue(m.valid_ground([0,0,1,1.7]))

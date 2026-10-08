@@ -1,18 +1,14 @@
 # Báo cáo Day 6: Phát hiện vật cản cho robot/drone
 
-> Thay **mọi** ô có chữ ĐIỀN nằm trong ngoặc vuông bằng nội dung của bạn, xoá luôn cả dấu ngoặc vuông. Lệnh `python tools/check_submission.py` sẽ báo FAIL nếu còn sót bất kỳ chỗ nào.
-
 - **Họ tên:** Nguyễn Trọng Phúc
 - **MSSV:** 2A202602552
-- **Lớp:** Track 4 — VinUni AI20K (chưa cung cấp mã lớp cụ thể)
+- **Lớp:** Track 4 — VinUni AI20K
 - **Link repo:** https://github.com/Wrxhard/NguyenTrongPhuc-2A202602552-Track4-Day21
 - **Topic:** D — Robot/drone obstacle
 - **Dataset:** `data/kitti_mini` (thí nghiệm chính); `data/synthetic` (kiểm tra dữ liệu/debug).
-- **Các frame đã dùng:** synthetic `000000–000004` (CP0); KITTI `000001, 000011, 000019, 000025, 000049` (CP1: kiểm tra dữ liệu, dự kiến dùng CP2–CP4).
+- **Các frame đã dùng:** synthetic `000000–000004` (CP0); KITTI `000001, 000011, 000019, 000025, 000049` (baseline, benchmark và failure CP2–CP4).
 
-> Hãy viết ngắn: mỗi mục từ 3 đến 8 dòng, ưu tiên số liệu và hình ảnh.
-
-> **Tiến độ:** CP4 đã có failure chạy thật và occupancy BEV. [CP0](CP0.md) · [CP1](CP1.md) · [CP2](CP2.md) · [CP3](CP3.md) · [CP4](CP4.md). CP5 sẽ kiểm tra bản nộp.
+> **Tiến độ:** CP0–CP5 đã có minh chứng và kiểm tra bản nộp; chuẩn bị trình bày CP6. [CP0](CP0.md) · [CP1](CP1.md) · [CP2](CP2.md) · [CP3](CP3.md) · [CP4](CP4.md) · [CP5](CP5.md).
 
 ## 1. Claim
 
@@ -64,20 +60,26 @@ Từ gốc repo, Windows PowerShell:
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements-lock.txt
+.\.venv\Scripts\python.exe tools/verify_data.py --data-root data/kitti_mini
+.\.venv\Scripts\python.exe tools/verify_data.py --data-root data/nuscenes_mini_subset
+.\.venv\Scripts\python.exe -m starter.data_health --data-root data/synthetic
+.\.venv\Scripts\python.exe -m starter.data_health --data-root data/kitti_mini --out results/data_health_kitti.csv
 .\.venv\Scripts\python.exe -m unittest discover -s src -p "test_*.py"
 .\.venv\Scripts\python.exe -m src.experiments demo
 .\.venv\Scripts\python.exe -m src.benchmark
 .\.venv\Scripts\python.exe -m src.verify_geometry
 .\.venv\Scripts\python.exe -m src.failure
 .\.venv\Scripts\python.exe -m src.experiments demo --data-root data/synthetic --frames 000000 --out results/synthetic_debug
+.\.venv\Scripts\python.exe tools/check_submission.py
 ```
 
-`python -m src.experiments --help` giải thích tham số. Benchmark cần vài phút; latency có thể thay đổi, số liệu hình học cần khớp.
+`.\.venv\Scripts\python.exe -m src.experiments --help` giải thích tham số. Benchmark cần vài phút; latency có thể thay đổi, số liệu hình học cần khớp.
 
 ## 6. Khai báo sử dụng AI
 
-Ghi rõ đã dùng công cụ AI nào, dùng vào việc gì, và bạn đã tự kiểm chứng kết quả đó bằng cách nào. Nếu không dùng AI, ghi "Không sử dụng". Xem quy định ở `RULES.md` mục 2.
-
-| Công cụ | Dùng cho việc gì | Bạn đã kiểm chứng thế nào |
+| Công cụ | Dùng cho việc gì | Kiểm chứng đã thực hiện |
 |---|---|---|
-| ChatGPT / Codex | Chuẩn bị CP0–CP1; viết pipeline/test/demo, benchmark CP2–CP3 và phân tích GT failure CP4 | Các lệnh được chạy thật; kết quả nằm trong `results/data_health.csv`, `results/data_health_kitti.csv`, `CP0.md`, `CP1.md` và `CP2.md`. Học viên cần tự xem và kiểm chứng trước khi nộp. |
+| ChatGPT / Codex | Đọc đề/rubric; chọn frame/claim; tạo và sửa toàn bộ code trong src/, test, hình, benchmark và báo cáo CP0–CP6 | Codex chạy lệnh trên dữ liệu gốc, 15 test thực tế, kiểm tra NaN/box transform, 30 cấu hình hình học tái lập, 600 lượt latency, failure GT và kiểm tra checkout sạch. Số liệu lưu trong results/, không bịa số/ảnh. |
+| Codex — reviewer độc lập | Rà soát code và đối chiếu số liệu CP2–CP4 | Xác nhận 30 metric row, 600 lượt latency, 531 cluster row và GT transform; hai lỗi biên được tái hiện bằng test trước sửa. Chi tiết trong CP5.md. |
+
+Đây là bài được AI hỗ trợ cả triển khai và viết báo cáo. Học viên cần tự đọc code, chạy lại và giải thích được số liệu trước khi nộp/vấn đáp; Codex không thể xác nhận học viên đã tự kiểm chứng, tập nói hoặc trình bày trước lớp.

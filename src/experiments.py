@@ -13,12 +13,16 @@ from starter.datasets import load_points
 from src.obstacle import Config,process
 
 FRAMES=['000001','000011','000019','000025','000049']
+CLUSTER_COLUMNS=['cluster_id','n_points','nearest_m']+[axis+suffix for axis in 'xyz' for suffix in ['_min','_max','_size']]
 
 
-def write_csv(path,rows):
+def write_csv(path,rows,fieldnames=None):
+    if fieldnames is None:
+        if not rows: raise ValueError('Empty CSV requires explicit fieldnames')
+        fieldnames=list(rows[0])
     path=Path(path); path.parent.mkdir(parents=True,exist_ok=True)
     with path.open('w',newline='',encoding='utf-8') as f:
-        w=csv.DictWriter(f,fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
+        w=csv.DictWriter(f,fieldnames=fieldnames); w.writeheader(); w.writerows(rows)
 
 
 def box_rows(result,extra):
@@ -79,7 +83,7 @@ def demo(args):
         demo_figure(r,frame,Path(args.out)/'figures'/f'demo_{frame}.png',cfg,args.data_root)
         print(frame,r['metrics'])
     write_csv(Path(args.out)/'baseline.csv',rows)
-    if boxes: write_csv(Path(args.out)/'baseline_clusters.csv',boxes)
+    write_csv(Path(args.out)/'baseline_clusters.csv',boxes,fieldnames=['frame_id',*CLUSTER_COLUMNS])
     (Path(args.out)/'baseline_config.json').write_text(json.dumps({'dataset':args.data_root,
         'frames':args.frames,'roi':{'x':[0,30],'y':[-10,10],'z':[-3,3]},
         'config':asdict(cfg),'plane_fit_threshold_m':.1,'max_ground_tilt_deg':15},indent=2))

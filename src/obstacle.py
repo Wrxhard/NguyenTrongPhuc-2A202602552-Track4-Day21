@@ -99,7 +99,7 @@ def process(points,cfg=Config(),plane=None):
     metrics=dict(n_raw=len(points),n_invalid=int((~np.isfinite(points).all(axis=1)).sum()),
                  n_roi=len(roi),n_voxel=len(xyz),n_ground=int(mask.sum()),
                  n_non_ground=len(obstacles),ground_valid=valid,
-                 plane_tilt_deg=float(np.degrees(np.arccos(np.clip(abs(plane[2]),0,1)))) if valid else np.nan,
+                 plane_tilt_deg=float(np.degrees(np.arccos(np.clip(abs(plane[2])/np.linalg.norm(plane[:3]),0,1)))) if valid else np.nan,
                  n_clusters=len(boxes),n_noise=int((labels==-1).sum()),
                  nearest_m=min((b['distance_m'] for b in boxes),default=np.nan),
                  no_cluster=not bool(boxes))
